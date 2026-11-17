@@ -1,7 +1,7 @@
 Invoke-Command -ScriptBlock {
-    $src = (Get-Location).Path
-    $repoName = Split-Path -Leaf $src
-    $junctionPath = Join-Path $env:USERPROFILE $repoName
+    $name = "dotfiles"
+    $src = (Get-Location).Path | Join-Path -ChildPath $name
+    $junctionPath = Join-Path $env:USERPROFILE $name
 
     if (Test-Path $junctionPath) {
         (Get-Item $junctionPath -Force).Delete()
@@ -10,5 +10,5 @@ Invoke-Command -ScriptBlock {
 
     $vimrcPath = Join-Path $env:USERPROFILE '_vimrc'
     $utf8NoBom = [System.Text.UTF8Encoding]::new($false)
-    [System.IO.File]::WriteAllText($vimrcPath, "source ~/$repoName/.vimrc`n", $utf8NoBom)
+    [System.IO.File]::WriteAllText($vimrcPath, "source ~/$name/.vimrc`n", $utf8NoBom)
 }
